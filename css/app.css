@@ -820,7 +820,15 @@ h1 em { font-style: italic; font-weight: 560; color: var(--terra-deep); }
   align-items: baseline;
 }
 .recap-stars { color: var(--gold); letter-spacing: 1px; grid-row: span 2; }
-#again-btn { margin-bottom: 8px; }
+#again-btn, #hub-next-btn { margin-bottom: 8px; }
+a.primary, a.secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+}
+#screen-choice.from-hub #hub-next-btn { order: 0; }
 
 .mini-screen { background: var(--cream); }
 .mini-bar {

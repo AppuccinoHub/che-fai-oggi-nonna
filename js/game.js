@@ -1132,6 +1132,12 @@
   }
 
   var COPY_GATE = ["shop-btn", "pop-btn", "andare-play-btn", "time-play-btn", "again-btn", "home-btn"];
+  var FROM_HUB = false;
+  try {
+    FROM_HUB = new URLSearchParams(window.location.search).get("from") === "hub";
+  } catch (err) {
+    FROM_HUB = false;
+  }
 
   function buildClassroomText(profile) {
     var saved = profile || load();
@@ -1195,6 +1201,13 @@
     if (copyBtn) {
       copyBtn.textContent = state.copied ? "Copied ✓ — paste in Classroom" : "Copy all";
       copyBtn.classList.toggle("is-done", !!state.copied);
+    }
+    var hub = $("hub-next-btn");
+    if (hub) {
+      hub.hidden = !state.copied;
+      hub.classList.toggle("primary", !!FROM_HUB);
+      hub.classList.toggle("secondary", !FROM_HUB);
+      if (screen) screen.classList.toggle("from-hub", !!FROM_HUB);
     }
   }
 
