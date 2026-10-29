@@ -646,11 +646,18 @@
     $("tip").hidden = !feedback;
     if (!feedback) $("streak").hidden = true;
 
-    var showModel = phase === "teach" || (answering && state.beatMisses > 0);
+    var showModel = answering && !!beat;
     $("model").hidden = !showModel;
-    if (showModel && beat) {
+    if (showModel) {
+      $("model-label").textContent = "Say / build:";
       $("model-it").textContent = beat.say;
       $("phonetic").textContent = beat.phonetic;
+    }
+    var showDo = answering || between;
+    $("do-now").hidden = !showDo;
+    if (showDo) {
+      $("do-now").textContent = doNowText(speak);
+      $("do-now").classList.toggle("is-listen", between);
     }
     $("hint").hidden = true;
     $("nudge").hidden = !(phase === "answer" && state.nudge);
@@ -673,18 +680,32 @@
       $("switch-btn").textContent = speak ? "Or just the chips" : "Or speak instead";
     }
     $("next-btn").hidden = !(between || feedback);
-    if (between) $("next-btn").textContent = "Keep going";
+    if (between) $("next-btn").textContent = "Got it — next";
     if (feedback) {
-      $("next-btn").textContent = state.index >= TURNS.length - 1 ? "Shop, Pop, or Play" : "Next";
+      $("next-btn").textContent = state.index >= TURNS.length - 1 ? "Copy for class" : "Next phrase";
     }
+    $("eyebrow").textContent = progressLabel();
     updateCaption();
   }
 
-  function eyebrow() {
-    var turn = state.turn;
-    var label = EYEBROW[turn.kind] || "Listen";
-    var level = turn.level === "medium" ? "medium" : "easy";
-    return label + " · " + level;
+  function progressLabel() {
+    var n = state.index + 1;
+    var total = TURNS.length;
+    var cue = "YOUR TURN";
+    if (state.phase === "between") cue = "LISTEN";
+    else if (state.phase === "feedback") cue = state.index >= total - 1 ? "DONE" : "LISTEN";
+    return "Phrase " + n + " of " + total + " · " + cue;
+  }
+
+  function doNowText(speak) {
+    var beat = state.beat;
+    if (state.phase === "between") return "LISTEN — Nonna is talking";
+    if (beat && beat.swapFrom) {
+      return "YOUR TURN — Swap " + beat.swapFrom + " → " + beat.swapTo + ", then build the sentence";
+    }
+    if (speak) return "YOUR TURN — Say it out loud";
+    if (beat && beat.single) return "YOUR TURN — Tap the tu form";
+    return "YOUR TURN — Tap the chips in order";
   }
 
   function startBeat() {
@@ -713,7 +734,6 @@
       "is-lesson",
       turn.kind === "flip" || turn.kind === "build" || turn.kind === "recall" || turn.kind === "time"
     );
-    $("eyebrow").textContent = eyebrow() + "  ·  " + (state.index + 1) + " / " + TURNS.length;
     $("english").textContent = beat.english || turn.english;
     $("task").textContent = beat.prompt;
     renderWas(beat);
@@ -725,6 +745,36 @@
     setProgress(state.index);
     if (turn.intro && state.beatIndex === 0) say(turn.intro);
     say(lineOf(beat));
+    preloadAhead();
+  }
+
+  function preloadAhead() {
+    if (!NonnaSpeech.preload || !NonnaSpeech.urlFor) return;
+    var urls = [];
+    function add(text) {
+      var url = text ? NonnaSpeech.urlFor(text) : "";
+      if (url) urls.push(url);
+    }
+    var beat = state.beat;
+    var turn = state.turn;
+    if (beat) {
+      add(lineOf(beat));
+      add(beat.say);
+      add(beat.reply);
+    }
+    var upcoming = turn && turn.beats[state.beatIndex + 1];
+    if (!upcoming && TURNS[state.index + 1]) {
+      var nextTurn = TURNS[state.index + 1];
+      add(nextTurn.intro);
+      upcoming = nextTurn.beats[0];
+    }
+    if (upcoming) {
+      add(upcoming.nonna);
+      add(upcoming.nonnaNamed);
+      add(upcoming.say);
+      add(upcoming.reply);
+    }
+    NonnaSpeech.preload(urls);
   }
 
   function startTurn() {

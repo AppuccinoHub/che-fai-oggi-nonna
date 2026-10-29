@@ -14,7 +14,7 @@
   <link rel="icon" href="img/nonna-icon-v2.png" type="image/png" />
   <link rel="apple-touch-icon" href="img/nonna-icon-v2.png" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="css/app.css?v=classroom1" />
+  <link rel="stylesheet" href="css/app.css?v=clarity1" />
 </head>
 <body>
   <div class="stage">
@@ -37,6 +37,7 @@
               <li>Flip io → tu: <span lang="it">mangio→mangi</span>, <span lang="it">vado→vai</span>. Never <span lang="it">vadi</span>.</li>
               <li>Build a real phrase: <span lang="it">Domani vado in palestra con…</span></li>
               <li>When the call ends, copy it all for Google Classroom.</li>
+              <li>On each turn: listen to Nonna, then tap (or say) the chips.</li>
             </ul>
           </div>
           <p class="stars-pill" id="stars-pill">No stars yet — Nonna is waiting</p>
@@ -139,6 +140,7 @@
             <p id="was-line" class="was-line" hidden></p>
             <div id="tray" class="tray" hidden></div>
             <div id="model" class="model" hidden>
+              <p class="model-label" id="model-label">Say / build:</p>
               <p class="model-it" id="model-it" lang="it"></p>
               <p class="phonetic" id="phonetic"></p>
             </div>
@@ -159,6 +161,7 @@
             </div>
           </div>
           <div class="dock">
+            <p id="do-now" class="do-now" hidden></p>
             <div id="chips" class="word-chips" hidden></div>
             <button type="button" id="mic-btn" class="mic-btn" hidden>
               <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21H9v2h6v-2h-2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>
@@ -304,10 +307,10 @@
     <p class="noscript">This call needs JavaScript. Turn it on, then open the page again.</p>
   </noscript>
 
-  <script src="js/script.js?v=classroom1"></script>
-  <script src="js/match.js?v=classroom1"></script>
-  <script src="js/speech.js?v=classroom1"></script>
-  <script src="js/clips.js?v=classroom1"></script>
-  <script src="js/game.js?v=classroom1"></script>
+  <script src="js/script.js?v=clarity1"></script>
+  <script src="js/match.js?v=clarity1"></script>
+  <script src="js/speech.js?v=clarity1"></script>
+  <script src="js/clips.js?v=clarity1"></script>
+  <script src="js/game.js?v=clarity1"></script>
 </body>
 </html>

@@ -14,25 +14,71 @@
       .trim();
   }
 
-  var player = null;
+  /* Small pool. iOS breaks one Audio element after many src swaps (~turn 15). */
+  var POOL = 4;
+  var pool = [];
+  var poolIndex = 0;
+  var active = null;
+  var warmed = {};
 
-  function audioEl() {
-    if (!player) {
-      player = new Audio();
-      player.preload = "auto";
-      player.setAttribute("playsinline", "");
-      player.playsInline = true;
-    }
-    return player;
+  function makeAudio() {
+    var audio = new Audio();
+    audio.preload = "auto";
+    audio.setAttribute("playsinline", "");
+    audio.playsInline = true;
+    return audio;
   }
 
-  function stopAudio() {
-    if (!player) return;
+  function takeAudio() {
+    if (pool.length < POOL) {
+      var created = makeAudio();
+      pool.push(created);
+      return created;
+    }
+    poolIndex = (poolIndex + 1) % pool.length;
+    return pool[poolIndex];
+  }
+
+  function resetAudio(audio) {
+    if (!audio) return;
     try {
-      player.pause();
+      audio.pause();
     } catch (err) {
       /* ignore */
     }
+    try {
+      audio.removeAttribute("src");
+      audio.src = "";
+      audio.load();
+    } catch (err) {
+      /* ignore */
+    }
+  }
+
+  function stopAudio() {
+    if (!active) return;
+    var current = active;
+    active = null;
+    resetAudio(current);
+  }
+
+  function preload(urls) {
+    (urls || []).forEach(function (url) {
+      if (!url || warmed[url]) return;
+      warmed[url] = true;
+      try {
+        var audio = new Audio();
+        audio.preload = "auto";
+        audio.src = url;
+        audio.load();
+      } catch (err) {
+        /* ignore */
+      }
+    });
+  }
+
+  function urlFor(text) {
+    return CLIPS[clipKey(text)] || "";
   }
 
   function supported() {
@@ -90,45 +136,86 @@
         resolve("skipped");
         return;
       }
-      var audio = audioEl();
+      var audio = takeAudio();
+      resetAudio(audio);
+      active = audio;
       var settled = false;
-      var finish = function (status) {
+      var playAttempts = 0;
+      var startedOk = false;
+
+      function cleanup() {
+        audio.removeEventListener("ended", onEnd);
+        audio.removeEventListener("error", onErr);
+        audio.removeEventListener("canplay", onCan);
+      }
+
+      function finish(status) {
         if (settled) return;
         settled = true;
         clearTimeout(timer);
-        audio.removeEventListener("ended", onEnd);
-        audio.removeEventListener("error", onErr);
-        audio.removeEventListener("pause", onPause);
+        cleanup();
+        if (active === audio) active = null;
         resolve(status);
-      };
-      var onEnd = function () {
+      }
+
+      function tryPlay() {
+        if (settled || myToken !== token) {
+          finish("skipped");
+          return;
+        }
+        if (playAttempts >= 2) {
+          finish("failed");
+          return;
+        }
+        playAttempts += 1;
+        var started;
+        try {
+          started = audio.play();
+        } catch (err) {
+          if (playAttempts >= 2) finish("failed");
+          return;
+        }
+        if (started && started.then) {
+          started.then(
+            function () {
+              startedOk = true;
+            },
+            function () {
+              if (settled) return;
+              if (audio.readyState >= 2 || playAttempts >= 2) finish("failed");
+            }
+          );
+        } else {
+          startedOk = true;
+        }
+      }
+
+      function onCan() {
+        if (!startedOk && playAttempts < 2) tryPlay();
+      }
+
+      function onEnd() {
         finish(myToken === token ? "played" : "skipped");
-      };
-      var onErr = function () {
+      }
+
+      function onErr() {
         finish("failed");
-      };
-      var onPause = function () {
-        if (myToken !== token) finish("skipped");
-      };
+      }
+
       var timer = setTimeout(function () {
-        finish(myToken === token ? "played" : "skipped");
-      }, 15000);
+        finish(startedOk && myToken === token ? "played" : "failed");
+      }, 12000);
+
       audio.addEventListener("ended", onEnd);
       audio.addEventListener("error", onErr);
-      audio.addEventListener("pause", onPause);
+      audio.addEventListener("canplay", onCan);
       audio.src = url;
-      var started;
       try {
-        started = audio.play();
+        audio.load();
       } catch (err) {
-        finish("failed");
-        return;
+        /* ignore */
       }
-      if (started && started.catch) {
-        started.catch(function () {
-          finish("failed");
-        });
-      }
+      tryPlay();
     });
   }
 
@@ -166,8 +253,13 @@
   function speakOne(text, myToken) {
     var url = CLIPS[clipKey(text)];
     if (!url) return utter(text, myToken);
+    try {
+      if (root.speechSynthesis) root.speechSynthesis.cancel();
+    } catch (err) {
+      /* a mapped line never uses the computer voice */
+    }
     return playClip(url, myToken).then(function (status) {
-      if (status === "failed" && myToken === token) return utter(text, myToken);
+      if (status === "failed" && myToken === token) return playClip(url, myToken);
     });
   }
 
@@ -217,7 +309,7 @@
 
     var wasSpeaking = !!(
       (root.speechSynthesis && root.speechSynthesis.speaking) ||
-      (player && !player.paused)
+      (active && !active.paused)
     );
     cancel();
 
@@ -327,6 +419,8 @@
     listen: listen,
     clipKey: clipKey,
     setClips: setClips,
+    preload: preload,
+    urlFor: urlFor,
     clips: function () {
       return CLIPS;
     }

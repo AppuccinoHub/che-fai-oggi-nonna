@@ -19,7 +19,7 @@
         {
           nonna: "Ciao, tesoro! Che fai oggi?",
           nonnaNamed: "Ciao, Arianna! Che fai oggi?",
-          prompt: "Tap the chips in order.",
+          prompt: "Tap: Ciao + Nonna.",
           english: "Say hi to Grandma.",
           say: "Ciao, Nonna!",
           phonetic: "CHOW, NON-nah",
@@ -43,7 +43,7 @@
       beats: [
         {
           nonna: "Io cucino oggi. Domani no. Oggi o domani?",
-          prompt: "She cooks today. Build the answer.",
+          prompt: "She cooks today. Tap: Oggi + Nonna.",
           english: "Today, Grandma.",
           say: "Oggi, Nonna!",
           phonetic: "OH-jee, NON-nah",
@@ -82,7 +82,7 @@
       beats: [
         {
           nonna: "Io mangio. E tu? Tu mangi.",
-          prompt: "Tap the tu form.",
+          prompt: "Tap tu: mangi.",
           english: "Watch -o flip to -i.",
           say: "Mangi.",
           phonetic: "MAHN-jee",
@@ -105,7 +105,7 @@
       beats: [
         {
           nonna: "Oggi mangio la pizza.",
-          prompt: "Build her sentence.",
+          prompt: "Tap the chips: build Nonna’s sentence.",
           english: "Today I eat pizza.",
           say: "Oggi mangio la pizza.",
           phonetic: "OH-jee MAHN-joh lah PEET-sah",
@@ -122,7 +122,7 @@
         },
         {
           nonna: "Ora tocca a te. Cambia una parola.",
-          prompt: "One chip swapped. Build the new sentence.",
+          prompt: "Swap mangio → mangi. Tap: Oggi + mangi + la pizza.",
           english: "Today you eat pizza.",
           say: "Oggi mangi la pizza.",
           phonetic: "OH-jee MAHN-jee lah PEET-sah",
@@ -153,7 +153,7 @@
       beats: [
         {
           nonna: "Facile facile. Tu mangi.",
-          prompt: "Two chips. Tap them in order.",
+          prompt: "Tap: Tu + mangi.",
           english: "You eat.",
           say: "Tu mangi.",
           phonetic: "too MAHN-jee",
@@ -189,7 +189,7 @@
       beats: [
         {
           nonna: "Io vado al mare. Tu vai. Non vadi: vai.",
-          prompt: "Tap tu. It is not -i.",
+          prompt: "Tap tu: vai. Not vadi.",
           english: "Andare is a surprise.",
           say: "Vai.",
           phonetic: "VAH-ee",
@@ -216,7 +216,7 @@
       beats: [
         {
           nonna: "Domani vai.",
-          prompt: "Tap the chips in order.",
+          prompt: "Tap: Domani + vai.",
           english: "Tomorrow you go.",
           say: "Domani vai.",
           phonetic: "doh-MAH-nee VAH-ee",
@@ -240,7 +240,7 @@
       beats: [
         {
           nonna: "Domani vado in palestra. Con chi? Con Nonna.",
-          prompt: "Build it. Who does she go with?",
+          prompt: "Tap: Domani + vado + in palestra + con Nonna.",
           english: "Tomorrow I go to the gym with Grandma.",
           say: "Domani vado in palestra con Nonna.",
           phonetic: "doh-MAH-nee VAH-doh een pah-LESS-trah kon NON-nah",
@@ -265,7 +265,7 @@
         },
         {
           nonna: "O con amici. Cambia chi.",
-          prompt: "One chip swapped. Who now?",
+          prompt: "Swap con Nonna → con amici. Tap the new sentence.",
           english: "Tomorrow I go to the gym with friends.",
           say: "Domani vado in palestra con amici.",
           phonetic: "doh-MAH-nee VAH-doh een pah-LESS-trah kon ah-MEE-chee",
@@ -304,7 +304,7 @@
       beats: [
         {
           nonna: "Facile. Domani vado.",
-          prompt: "Tap the chips in order.",
+          prompt: "Tap: Domani + vado.",
           english: "Tomorrow I go.",
           say: "Domani vado.",
           phonetic: "doh-MAH-nee VAH-doh",
@@ -328,7 +328,7 @@
       beats: [
         {
           nonna: "Oggi vado al mare.",
-          prompt: "Build her sentence.",
+          prompt: "Tap the chips: build Nonna’s sentence.",
           english: "Today I go to the sea.",
           say: "Oggi vado al mare.",
           phonetic: "OH-jee VAH-doh ahl MAH-reh",
@@ -346,7 +346,7 @@
         },
         {
           nonna: "Ora tu. Non vado: vai.",
-          prompt: "One chip swapped. You go.",
+          prompt: "Swap vado → vai. Tap: Oggi + vai + al mare.",
           english: "Today you go to the sea.",
           say: "Oggi vai al mare.",
           phonetic: "OH-jee VAH-ee ahl MAH-reh",
@@ -378,7 +378,7 @@
       beats: [
         {
           nonna: "Tu vai.",
-          prompt: "Tap the chips in order.",
+          prompt: "Tap: Tu + vai.",
           english: "You go.",
           say: "Tu vai.",
           phonetic: "too VAH-ee",
@@ -402,7 +402,7 @@
       beats: [
         {
           nonna: "Adesso guardo il mare.",
-          prompt: "Build her sentence.",
+          prompt: "Tap the chips: build Nonna’s sentence.",
           english: "Now I watch the sea.",
           say: "Adesso guardo il mare.",
           phonetic: "ah-DESS-soh GWAR-doh eel MAH-reh",
@@ -419,7 +419,7 @@
         },
         {
           nonna: "Ora tu. Guardo diventa guardi.",
-          prompt: "One chip swapped. Build the new sentence.",
+          prompt: "Swap guardo → guardi. Tap: Adesso + guardi + il mare.",
           english: "Now you watch the sea.",
           say: "Adesso guardi il mare.",
           phonetic: "ah-DESS-soh GWAR-dee eel MAH-reh",
@@ -450,7 +450,7 @@
       beats: [
         {
           nonna: "Tu guardi.",
-          prompt: "Tap the chips in order.",
+          prompt: "Tap: Tu + guardi.",
           english: "You watch.",
           say: "Tu guardi.",
           phonetic: "too GWAR-dee",
@@ -475,7 +475,7 @@
       beats: [
         {
           nonna: "Che mangio oggi?",
-          prompt: "Answer with tu. Today you eat.",
+          prompt: "She asked in io. Answer in tu: Oggi mangi.",
           english: "What do I eat today?",
           say: "Oggi mangi.",
           phonetic: "OH-jee MAHN-jee",
@@ -492,7 +492,7 @@
         },
         {
           nonna: "E domani, che faccio?",
-          prompt: "Answer with tu. Tomorrow you go.",
+          prompt: "She asked in io. Answer in tu: Domani vai.",
           english: "And tomorrow, what do I do?",
           say: "Domani vai.",
           phonetic: "doh-MAH-nee VAH-ee",
@@ -509,7 +509,7 @@
         },
         {
           nonna: "E in palestra, con chi vado?",
-          prompt: "Answer with tu, and pick Zia.",
+          prompt: "Answer in tu: Vai + con Zia.",
           english: "And the gym — who do I go with?",
           say: "Vai con Zia.",
           phonetic: "VAH-ee kon TSEE-ah",
@@ -538,7 +538,7 @@
       beats: [
         {
           nonna: "Non oggi. Domani.",
-          prompt: "One chip swapped. Build it.",
+          prompt: "Swap Oggi → Domani. Tap: Domani + mangi.",
           english: "Tomorrow you eat.",
           say: "Domani mangi.",
           phonetic: "doh-MAH-nee MAHN-jee",
@@ -566,7 +566,7 @@
       beats: [
         {
           nonna: "Hai sete? Io bevo. Tu bevi.",
-          prompt: "Tap the chips in order.",
+          prompt: "Tap: Tu + bevi.",
           english: "You drink.",
           say: "Tu bevi.",
           phonetic: "too BEH-vee",
@@ -580,7 +580,7 @@
         },
         {
           nonna: "E dopo, io gioco. Tu giochi.",
-          prompt: "Tap the chips in order.",
+          prompt: "Tap: Tu + giochi.",
           english: "You play.",
           say: "Tu giochi.",
           phonetic: "too JOH-kee",
@@ -604,7 +604,7 @@
       beats: [
         {
           nonna: "Mi saluti? Ciao, Nonna, a domani!",
-          prompt: "Tap the chips in order.",
+          prompt: "Tap: Ciao + Nonna + a domani.",
           english: "Say goodbye.",
           say: "Ciao, Nonna! A domani!",
           phonetic: "CHOW, NON-nah! ah doh-MAH-nee",
