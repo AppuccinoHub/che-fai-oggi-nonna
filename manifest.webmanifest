@@ -1,0 +1,19 @@
+{
+  "name": "Che fai oggi, Nonna?",
+  "short_name": "Che fai",
+  "description": "Flip io to tu on a call with Nonna in Monte di Procida.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1a100e",
+  "theme_color": "#1a100e",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "img/nonna-icon-v2.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
