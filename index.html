@@ -14,7 +14,7 @@
   <link rel="icon" href="img/nonna-icon-v2.png" type="image/png" />
   <link rel="apple-touch-icon" href="img/nonna-icon-v2.png" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="css/app.css?v=andare2" />
+  <link rel="stylesheet" href="css/app.css?v=classroom1" />
 </head>
 <body>
   <div class="stage">
@@ -30,7 +30,15 @@
           <svg class="squiggle" viewBox="0 0 140 14" aria-hidden="true">
             <path d="M2 9 Q 18 2 32 9 T 62 9 T 92 8 T 138 6" fill="none" stroke="#e2ae3a" stroke-width="3.5" stroke-linecap="round" />
           </svg>
-          <p class="lede">Nonna calls from Monte di Procida. Flip <span lang="it">mangio</span> to <span lang="it">mangi</span>, then <span lang="it">vado</span> to <span lang="it">vai</span> — never <span lang="it">vadi</span>. Tomorrow she goes to the gym with you.</p>
+          <div class="point-box">
+            <p class="point-kicker">Point of this call</p>
+            <ul>
+              <li>Talk with Nonna in Italian.</li>
+              <li>Flip io → tu: <span lang="it">mangio→mangi</span>, <span lang="it">vado→vai</span>. Never <span lang="it">vadi</span>.</li>
+              <li>Build a real phrase: <span lang="it">Domani vado in palestra con…</span></li>
+              <li>When the call ends, copy it all for Google Classroom.</li>
+            </ul>
+          </div>
           <p class="stars-pill" id="stars-pill">No stars yet — Nonna is waiting</p>
           <p class="jar-line" id="jar-line"></p>
           <p class="calls-line" id="calls-line"></p>
@@ -172,6 +180,14 @@
           <h2 id="choice-title" class="end-title">Ciao ciao.</h2>
           <p class="end-love" lang="it">A domani, tesoro.</p>
           <p class="end-en">See you tomorrow.</p>
+          <div class="point-box class-next" id="class-next">
+            <p class="point-kicker">For class</p>
+            <p>Tap <strong>Copy all</strong>. Paste it into your Google Classroom assignment.</p>
+          </div>
+          <button type="button" id="copy-all-btn" class="primary">Copy all</button>
+          <p class="copy-gate" id="copy-gate-line">Copy all first, then paste in Google Classroom.</p>
+          <textarea id="copy-all-text" class="copy-box" readonly rows="6" aria-label="Text to paste into Google Classroom"></textarea>
+          <p class="copy-fallback" id="copy-fallback">If Copy doesn’t stick, select the box and press Ctrl or Cmd+C. On iPhone, tap and hold, then Copy.</p>
           <p class="end-score" id="choice-score"></p>
           <p class="end-saved" id="choice-jar-line"></p>
           <p class="end-saved" id="choice-saved"></p>
@@ -267,6 +283,7 @@
   </dialog>
 
   <div id="live" class="sr-only" aria-live="polite"></div>
+  <p id="toast" class="toast" hidden>Copied! Now paste it into Google Classroom.</p>
 
   <template id="scene-template">
     <div class="scene has-photo" data-mood="smile" role="img" aria-label="Nonna calling from Monte di Procida, Italia">
@@ -287,10 +304,10 @@
     <p class="noscript">This call needs JavaScript. Turn it on, then open the page again.</p>
   </noscript>
 
-  <script src="js/script.js?v=andare2"></script>
-  <script src="js/match.js?v=andare2"></script>
-  <script src="js/speech.js?v=andare2"></script>
-  <script src="js/clips.js?v=andare2"></script>
-  <script src="js/game.js?v=andare2"></script>
+  <script src="js/script.js?v=classroom1"></script>
+  <script src="js/match.js?v=classroom1"></script>
+  <script src="js/speech.js?v=classroom1"></script>
+  <script src="js/clips.js?v=classroom1"></script>
+  <script src="js/game.js?v=classroom1"></script>
 </body>
 </html>

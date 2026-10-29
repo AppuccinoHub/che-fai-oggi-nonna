@@ -40,7 +40,7 @@ First try is 3 stars, a miss then a hit is 2, and the shown phrase is 1. Three t
 
 ## Shop, Pop, and two catch games
 
-After goodbye, four choices. All of them stay on this phone. After the first finished call, both catch games are also on the home screen.
+After goodbye, copy the call for class first. **Copy all** is required before Shop, Pop, Andare Catch, Time Catch, calling again, or going home. Paste that text into the Google Classroom assignment. Then the four choices unlock. They stay on this phone. After the first finished call, both catch games are also on the home screen.
 
 **Shop** spends lemons and shells on one gift each for Nonna: a string of lemons, coffee, a shell necklace, a postcard of the sea, flowers, or gelato. Bought gifts stay on her table.
 

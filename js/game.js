@@ -943,7 +943,7 @@
     save(profile);
     state.callStars += stars;
     $("call-stars").textContent = String(state.callStars);
-    state.recap.push({ say: turn.pill, english: turn.why, stars: stars });
+    state.recap.push({ say: turn.pill, english: turn.english, stars: stars });
     state.phase = "feedback";
     state.nudge = null;
     state.note = "";
@@ -1060,6 +1060,8 @@
       " stars saved · best call " +
       (profile.bestStars || 0) +
       (profile.popPoints ? " · " + profile.popPoints + " pop points" : "");
+    $("copy-all-text").value = buildClassroomText(profile);
+    setCopyGate(!!state.copied);
     var list = $("recap");
     list.replaceChildren();
     state.recap.forEach(function (row) {
@@ -1079,8 +1081,137 @@
     });
   }
 
+  var COPY_GATE = ["shop-btn", "pop-btn", "andare-play-btn", "time-play-btn", "again-btn", "home-btn"];
+
+  function buildClassroomText(profile) {
+    var saved = profile || load();
+    var when = new Date().toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+    var lines = [
+      "Che fai oggi, Nonna?",
+      "Name: " + (state.name || "Arianna"),
+      "Date: " + when,
+      "Point: Practice io→tu with Nonna (mangi, vai) and build real “vado / vai” phrases.",
+      "",
+      "This call: " +
+        state.callStars +
+        (state.callStars === 1 ? " star" : " stars") +
+        " · 🍋 " +
+        state.callLemons +
+        " · 🐚 " +
+        state.callShells,
+      "",
+      "What I said:"
+    ];
+    state.recap.forEach(function (row, index) {
+      var marks = "★".repeat(row.stars) + "☆".repeat(Math.max(0, 3 - row.stars));
+      lines.push(index + 1 + ". " + marks + " " + row.say + " — " + row.english);
+    });
+    lines.push("");
+    lines.push(
+      "Jar on this phone: 🍋 " + (saved.lemons || 0) + " · 🐚 " + (saved.shells || 0)
+    );
+    lines.push(
+      "Stars on this phone: " + (saved.totalStars || 0) + " · best call " + (saved.bestStars || 0)
+    );
+    var gifts = giftNames(saved);
+    if (gifts.length) lines.push("Gifts for Nonna: " + gifts.join(", "));
+    if (saved.popPoints) lines.push("Pop points: " + saved.popPoints);
+    if (saved.andarePlayed || saved.andareBest) {
+      lines.push("Andare Catch best: " + (saved.andareBest || 0));
+    }
+    if (saved.timePlayed || saved.timeBest) {
+      lines.push("Time Catch best: " + (saved.timeBest || 0));
+    }
+    return lines.join("\n");
+  }
+
+  function setCopyGate(copied) {
+    state.copied = !!copied;
+    var screen = $("screen-choice");
+    if (screen) screen.classList.toggle("is-locked", !state.copied);
+    COPY_GATE.forEach(function (id) {
+      var button = $(id);
+      if (!button) return;
+      button.disabled = !state.copied;
+      button.setAttribute("aria-disabled", state.copied ? "false" : "true");
+    });
+    var gate = $("copy-gate-line");
+    if (gate) gate.hidden = !!state.copied;
+    var copyBtn = $("copy-all-btn");
+    if (copyBtn) {
+      copyBtn.textContent = state.copied ? "Copied ✓ — paste in Classroom" : "Copy all";
+      copyBtn.classList.toggle("is-done", !!state.copied);
+    }
+  }
+
+  function fallbackCopy(text) {
+    var box = $("copy-all-text");
+    box.value = text;
+    box.focus();
+    box.select();
+    try {
+      return document.execCommand("copy");
+    } catch (err) {
+      return false;
+    }
+  }
+
+  var toastTimer = 0;
+
+  function showToast(message) {
+    var toast = $("toast");
+    toast.textContent = message;
+    toast.hidden = false;
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.hidden = true;
+    }, 2800);
+  }
+
+  function onCopyAll() {
+    var text = buildClassroomText();
+    $("copy-all-text").value = text;
+    var finish = function (ok) {
+      if (ok) {
+        setCopyGate(true);
+        $("copy-fallback").classList.remove("is-hot");
+        showToast("Copied! Now paste it into Google Classroom.");
+        announce("Copied. Now paste it into Google Classroom.");
+        return;
+      }
+      var box = $("copy-all-text");
+      box.focus();
+      try {
+        box.select();
+      } catch (err) {
+        /* ignore */
+      }
+      $("copy-fallback").classList.add("is-hot");
+      showToast("Select the box, then copy it.");
+      announce("Copy did not stick. Select the box and copy it.");
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        function () {
+          finish(true);
+        },
+        function () {
+          finish(fallbackCopy(text));
+        }
+      );
+      return;
+    }
+    finish(fallbackCopy(text));
+  }
+
   function openChoice(speakLine) {
-    if (!state.savedCall) {
+    var fresh = !state.savedCall;
+    if (fresh) {
+      state.copied = false;
       state.savedCall = true;
       stopTimer();
       invalidateListen();
@@ -1094,7 +1225,7 @@
     showScreen("choice");
     if (speakLine) {
       say(NONNA_SCRIPT.choiceLine);
-      announce("Shop, Pop, or Play.");
+      announce(fresh ? "Copy all, then paste in Google Classroom." : "Back to the end of the call.");
     }
   }
 
@@ -1438,6 +1569,7 @@
     state.recap = [];
     state.streak = 0;
     state.savedCall = false;
+    state.copied = false;
     state.micBlocked = false;
     state.anyTaught = false;
     state.anySlip = false;
@@ -1522,6 +1654,7 @@
       startRing();
     });
     $("home-btn").addEventListener("click", hangUp);
+    $("copy-all-btn").addEventListener("click", onCopyAll);
     $("end-btn").addEventListener("click", onEndRequest);
     $("stay-btn").addEventListener("click", function () {
       $("leave-dialog").close();
