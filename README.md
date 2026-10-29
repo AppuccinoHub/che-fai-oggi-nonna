@@ -10,9 +10,9 @@ Open `index.html` on GitHub Pages from the repository root on `main` (https://ap
 2. Every phrase is word chips: Italian on top, English underneath. Tap them in order, or speak the sentence.
 3. A medium turn is always followed by an easy one.
 4. Later she only asks. You answer. She replies.
-5. Lemons, shells, and stars drop into the jar. Then you choose Shop, Pop, or Play.
+5. Lemons, shells, and stars drop into the jar. Then you choose Shop, Pop, Andare Catch, or Time Catch.
 
-Thirteen turns, in this order:
+Seventeen turns. A medium turn is always followed by an easy one.
 
 | | | Nonna | You build |
 | --- | --- | --- | --- |
@@ -23,26 +23,32 @@ Thirteen turns, in this order:
 | 5 | easy | Facile facile. Tu mangi. | Tu mangi. |
 | 6 | medium | Io vado al mare. Tu vai. Non vadi: vai. | vai — andare does not take -i |
 | 7 | easy | Domani vai. | Domani vai. |
-| 8 | medium | Adesso guardo il mare. Then one chip swaps. | Adesso guardo il mare. → Adesso guardi il mare. |
-| 9 | easy | Tu guardi. | Tu guardi. |
-| 10 | medium | Che mangio oggi? / E domani, che faccio? | Oggi mangi. / Domani vai. |
-| 11 | easy | Non oggi. Domani. | Oggi mangi. → Domani mangi. |
-| 12 | easy | Io bevo. Tu bevi. / Io gioco. Tu giochi. | Tu bevi. / Tu giochi. |
-| 13 | easy | Mi saluti? Ciao, Nonna, a domani! | Ciao, Nonna! A domani! |
+| 8 | medium | Domani vado in palestra. Con chi? | Domani vado in palestra con Nonna. → con amici. |
+| 9 | easy | Facile. Domani vado. | Domani vado. |
+| 10 | medium | Oggi vado al mare. Then one chip swaps. | Oggi vado al mare. → Oggi vai al mare. |
+| 11 | easy | Tu vai. | Tu vai. |
+| 12 | medium | Adesso guardo il mare. Then one chip swaps. | Adesso guardo il mare. → Adesso guardi il mare. |
+| 13 | easy | Tu guardi. | Tu guardi. |
+| 14 | medium | Che mangio oggi? / E domani, che faccio? / Con chi vado? | Oggi mangi. / Domani vai. / Vai con Zia. |
+| 15 | easy | Non oggi. Domani. | Oggi mangi. → Domani mangi. |
+| 16 | easy | Io bevo. Tu bevi. / Io gioco. Tu giochi. | Tu bevi. / Tu giochi. |
+| 17 | easy | Mi saluti? Ciao, Nonna, a domani! | Ciao, Nonna! A domani! |
 
-The flip shows badges **io = -o** and **tu = -i**. Andare is the surprise: **vado → vai**, not vadi. Bere and giocare still flip: bevo → bevi, gioco → giochi.
+The flip shows badges **io = -o** and **tu = -i**. Andare is the surprise: **vado → vai**, not vadi. Who you go with is Nonna, amici, or Zia. Bere and giocare still flip: bevo → bevi, gioco → giochi.
 
 First try is 3 stars, a miss then a hit is 2, and the shown phrase is 1. Three three-star turns in a row light a streak. An easy turn drops a shell. A medium turn drops a lemon.
 
-## Shop, Pop, Play
+## Shop, Pop, and two catch games
 
-After goodbye, three choices. All three stay on this phone.
+After goodbye, four choices. All of them stay on this phone. After the first finished call, both catch games are also on the home screen.
 
 **Shop** spends lemons and shells on one gift each for Nonna: a string of lemons, coffee, a shell necklace, a postcard of the sea, flowers, or gelato. Bought gifts stay on her table.
 
 **Pop** bursts lemons out of the jar. Each lemon is 5 points. Shells stay. Points are saved.
 
-**Play** unlocks Verb Catch. Tu forms fall (mangi, vai, guardi, bevi, giochi). Drag the basket and catch those. Let io forms, and vadi, fall past. Three lives, 35 seconds. The best score is saved. After the first finished call, Verb Catch is also on the home screen.
+**Andare Catch** drops vado, vai, and the trip chips (oggi, domani, adesso, al mare, in palestra, con Nonna, con amici, con Zia). Catch those. Let vadi fall. Three lives, 35 seconds. The best score is saved on its own.
+
+**Time Catch** catches only oggi, domani, and adesso. Vado, vai, vadi, and the places fall past the basket. Its best score is saved separately.
 
 Speaking needs a normal https URL, or `localhost`. A plain `http://` address, or a page opened as a file, will not get the microphone. Tapping always works.
 

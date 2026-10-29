@@ -1,4 +1,4 @@
-/* Che fai oggi, Nonna? — thirteen call turns, then Shop / Pop / Play.
+/* Che fai oggi, Nonna? — call turns, then Shop / Pop / two catch games.
    Rhythm: a medium turn is always followed by an easy one. */
 (function (root) {
   "use strict";
@@ -231,6 +231,168 @@
       ]
     },
     {
+      id: "palestra",
+      level: "medium",
+      kind: "build",
+      pill: "Domani vado in palestra.",
+      english: "Tomorrow I go to the gym.",
+      why: "Vado is I go. Fill in who: con Nonna, con amici, or con Zia. Vadi is not a word.",
+      beats: [
+        {
+          nonna: "Domani vado in palestra. Con chi? Con Nonna.",
+          prompt: "Build it. Who does she go with?",
+          english: "Tomorrow I go to the gym with Grandma.",
+          say: "Domani vado in palestra con Nonna.",
+          phonetic: "doh-MAH-nee VAH-doh een pah-LESS-trah kon NON-nah",
+          accept: [
+            "domani vado in palestra con nonna",
+            "vado in palestra con nonna domani",
+            "domani io vado in palestra con nonna",
+            "io domani vado in palestra con nonna"
+          ],
+          order: ["Domani", "vado", "in palestra", "con Nonna"],
+          chips: [
+            chip("Domani", "tomorrow"),
+            chip("vado", "I go"),
+            chip("in palestra", "to the gym"),
+            chip("con Nonna", "with Grandma"),
+            chip("con amici", "with friends", "extra"),
+            chip("con Zia", "with Aunt", "extra"),
+            chip("vadi", "not a word", "extra")
+          ],
+          reply: "Sì. Con Nonna.",
+          replyEn: "Yes. With Grandma."
+        },
+        {
+          nonna: "O con amici. Cambia chi.",
+          prompt: "One chip swapped. Who now?",
+          english: "Tomorrow I go to the gym with friends.",
+          say: "Domani vado in palestra con amici.",
+          phonetic: "doh-MAH-nee VAH-doh een pah-LESS-trah kon ah-MEE-chee",
+          accept: [
+            "domani vado in palestra con amici",
+            "domani vado in palestra con gli amici",
+            "vado in palestra con amici domani",
+            "domani io vado in palestra con amici"
+          ],
+          order: ["Domani", "vado", "in palestra", "con amici"],
+          was: "Domani vado in palestra con Nonna.",
+          swapFrom: "con Nonna",
+          swapTo: "con amici",
+          spark: "con amici",
+          chips: [
+            chip("Domani", "tomorrow"),
+            chip("vado", "I go"),
+            chip("in palestra", "to the gym"),
+            chip("con amici", "with friends"),
+            chip("con Nonna", "with Grandma", "extra"),
+            chip("con Zia", "with Aunt", "extra"),
+            chip("vadi", "not a word", "extra")
+          ],
+          reply: "Bene, con amici!",
+          replyEn: "Good — with friends."
+        }
+      ]
+    },
+    {
+      id: "easy-vado",
+      level: "easy",
+      kind: "easy",
+      pill: "Domani vado.",
+      english: "Tomorrow I go.",
+      why: "Vado means I go. Domani means tomorrow.",
+      beats: [
+        {
+          nonna: "Facile. Domani vado.",
+          prompt: "Tap the chips in order.",
+          english: "Tomorrow I go.",
+          say: "Domani vado.",
+          phonetic: "doh-MAH-nee VAH-doh",
+          accept: ["domani vado", "vado domani", "io domani vado", "domani io vado"],
+          order: ["Domani", "vado"],
+          straight: true,
+          gentle: true,
+          chips: [chip("Domani", "tomorrow"), chip("vado", "I go")],
+          reply: "Esatto. Domani vado.",
+          replyEn: "Exactly. Tomorrow I go."
+        }
+      ]
+    },
+    {
+      id: "mare-vai",
+      level: "medium",
+      kind: "build",
+      pill: "Oggi vai al mare.",
+      english: "Today you go to the sea.",
+      why: "Same trip, one chip. Vado is I go. Vai is you go. Not vadi.",
+      beats: [
+        {
+          nonna: "Oggi vado al mare.",
+          prompt: "Build her sentence.",
+          english: "Today I go to the sea.",
+          say: "Oggi vado al mare.",
+          phonetic: "OH-jee VAH-doh ahl MAH-reh",
+          accept: ["oggi vado al mare", "vado al mare oggi", "io oggi vado al mare", "oggi io vado al mare"],
+          order: ["Oggi", "vado", "al mare"],
+          chips: [
+            chip("Oggi", "today"),
+            chip("vado", "I go"),
+            chip("al mare", "to the sea"),
+            chip("vai", "you go", "extra"),
+            chip("vadi", "not a word", "extra")
+          ],
+          reply: "Sì. Oggi vado al mare.",
+          replyEn: "Yes. Today I go to the sea."
+        },
+        {
+          nonna: "Ora tu. Non vado: vai.",
+          prompt: "One chip swapped. You go.",
+          english: "Today you go to the sea.",
+          say: "Oggi vai al mare.",
+          phonetic: "OH-jee VAH-ee ahl MAH-reh",
+          accept: ["oggi vai al mare", "vai al mare oggi", "tu oggi vai al mare", "oggi tu vai al mare"],
+          order: ["Oggi", "vai", "al mare"],
+          was: "Oggi vado al mare.",
+          swapFrom: "vado",
+          swapTo: "vai",
+          spark: "vai",
+          chips: [
+            chip("Oggi", "today"),
+            chip("vai", "you go"),
+            chip("al mare", "to the sea"),
+            chip("vado", "I go", "extra"),
+            chip("vadi", "not a word", "extra")
+          ],
+          reply: "Vai! Oggi vai al mare.",
+          replyEn: "You go! Today you go to the sea."
+        }
+      ]
+    },
+    {
+      id: "easy-tu-vai",
+      level: "easy",
+      kind: "easy",
+      pill: "Tu vai.",
+      english: "You go.",
+      why: "Tu vai means you go. Andare does not become vadi.",
+      beats: [
+        {
+          nonna: "Tu vai.",
+          prompt: "Tap the chips in order.",
+          english: "You go.",
+          say: "Tu vai.",
+          phonetic: "too VAH-ee",
+          accept: ["tu vai", "vai"],
+          order: ["Tu", "vai"],
+          straight: true,
+          gentle: true,
+          chips: [chip("Tu", "you"), chip("vai", "you go")],
+          reply: "Proprio così. Tu vai.",
+          replyEn: "Just like that. You go."
+        }
+      ]
+    },
+    {
       id: "mare-build",
       level: "medium",
       kind: "build",
@@ -308,7 +470,7 @@
       kind: "recall",
       pill: "Oggi mangi.",
       english: "Now she only asks.",
-      why: "She asked in io. You answered in tu. Mangio pairs with mangi. Vado pairs with vai.",
+      why: "She asked in io. You answered in tu. Vado pairs with vai, never vadi. The gym can be with Nonna, amici, or Zia.",
       intro: "Adesso dimmi tu.",
       beats: [
         {
@@ -344,6 +506,25 @@
           ],
           reply: "Sì, domani vado!",
           replyEn: "Yes — tomorrow I go."
+        },
+        {
+          nonna: "E in palestra, con chi vado?",
+          prompt: "Answer with tu, and pick Zia.",
+          english: "And the gym — who do I go with?",
+          say: "Vai con Zia.",
+          phonetic: "VAH-ee kon TSEE-ah",
+          accept: ["vai con zia", "con zia", "tu vai con zia", "vai in palestra con zia", "tu vai in palestra con zia"],
+          order: ["Vai", "con Zia"],
+          chips: [
+            chip("Vai", "you go"),
+            chip("con Zia", "with Aunt"),
+            chip("vado", "I go", "extra"),
+            chip("vadi", "not a word", "extra"),
+            chip("con Nonna", "with Grandma", "extra"),
+            chip("con amici", "with friends", "extra")
+          ],
+          reply: "Sì, vado con Zia!",
+          replyEn: "Yes — I go with Aunt."
         }
       ]
     },
@@ -468,6 +649,8 @@
       ["adesso", "now"],
       ["mangio → mangi", "I eat → you eat"],
       ["vado → vai", "I go → you go. Not vadi."],
+      ["in palestra", "to the gym"],
+      ["con Nonna / amici / Zia", "with Grandma, friends, or Aunt"],
       ["guardo → guardi", "I watch → you watch"],
       ["bevo → bevi", "I drink → you drink"],
       ["gioco → giochi", "I play → you play"]

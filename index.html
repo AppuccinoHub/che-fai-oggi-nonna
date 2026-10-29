@@ -14,7 +14,7 @@
   <link rel="icon" href="img/nonna-icon-v2.png" type="image/png" />
   <link rel="apple-touch-icon" href="img/nonna-icon-v2.png" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/app.css?v=andare2" />
 </head>
 <body>
   <div class="stage">
@@ -30,10 +30,14 @@
           <svg class="squiggle" viewBox="0 0 140 14" aria-hidden="true">
             <path d="M2 9 Q 18 2 32 9 T 62 9 T 92 8 T 138 6" fill="none" stroke="#e2ae3a" stroke-width="3.5" stroke-linecap="round" />
           </svg>
-          <p class="lede">Nonna calls from Monte di Procida. Build her sentences from word chips, flip <span lang="it">mangio</span> to <span lang="it">mangi</span>, then answer when she only asks.</p>
+          <p class="lede">Nonna calls from Monte di Procida. Flip <span lang="it">mangio</span> to <span lang="it">mangi</span>, then <span lang="it">vado</span> to <span lang="it">vai</span> — never <span lang="it">vadi</span>. Tomorrow she goes to the gym with you.</p>
           <p class="stars-pill" id="stars-pill">No stars yet — Nonna is waiting</p>
           <p class="jar-line" id="jar-line"></p>
           <p class="calls-line" id="calls-line"></p>
+          <div id="catch-home" class="catch-home" hidden>
+            <button type="button" id="andare-home-btn" class="secondary">Andare Catch</button>
+            <button type="button" id="time-home-btn" class="secondary">Time Catch</button>
+          </div>
           <div id="mastered-wrap" class="mastered-wrap" hidden>
             <p class="mastered-label">First-try phrases</p>
             <div id="mastered" class="pills"></div>
@@ -58,13 +62,12 @@
             <p id="greet-line" class="greet" hidden></p>
             <button type="button" id="change-name" class="text-btn" hidden>Change name</button>
             <button type="submit" id="call-btn" class="primary">Call Nonna</button>
-            <button type="button" id="catch-home-btn" class="secondary" hidden>Play Verb Catch</button>
           </form>
           <details class="words">
             <summary>Peek at the words</summary>
             <ul id="word-list"></ul>
           </details>
-          <p class="fine">Lemons, shells, stars, gifts, and Verb Catch stay on this phone, separate from the other Nonna calls. Tapping works even if the mic says no.</p>
+          <p class="fine">Lemons, shells, stars, gifts, Andare Catch, and Time Catch stay on this phone, separate from the other Nonna calls. Tapping works even if the mic says no.</p>
         </div>
       </section>
 
@@ -183,10 +186,15 @@
               <strong>Pop</strong>
               <small>Burst lemons for points</small>
             </button>
-            <button type="button" id="play-btn" class="choice-btn">
-              <span class="choice-emoji" aria-hidden="true">🧺</span>
-              <strong>Play</strong>
-              <small>Verb Catch — catch tu forms</small>
+            <button type="button" id="andare-play-btn" class="choice-btn">
+              <span class="choice-emoji" aria-hidden="true">🚶</span>
+              <strong>Andare</strong>
+              <small>Catch vado and vai — let vadi fall</small>
+            </button>
+            <button type="button" id="time-play-btn" class="choice-btn">
+              <span class="choice-emoji" aria-hidden="true">🕒</span>
+              <strong>Tempo</strong>
+              <small>Catch oggi, domani, adesso</small>
             </button>
           </div>
           <details class="words recap-wrap">
@@ -230,12 +238,12 @@
       <section id="screen-catch" class="screen mini-screen" hidden>
         <header class="mini-bar">
           <button type="button" id="catch-back" class="text-btn inline">Back</button>
-          <strong>Verb Catch</strong>
+          <strong id="catch-title">Andare Catch</strong>
           <span id="catch-lives" class="lives">♥♥♥</span>
           <span id="catch-time" class="time-pill">0:35</span>
           <span id="catch-score" class="star-pill dark">0</span>
         </header>
-        <p class="legend">Catch <strong>tu</strong>: mangi, vai, guardi, bevi, giochi. Let io forms fall.</p>
+        <p class="legend" id="catch-legend">Catch vado and vai, plus when and where. Let vadi fall.</p>
         <div id="catch-field" class="catch-field">
           <div id="basket" class="basket">tu</div>
         </div>
@@ -279,10 +287,10 @@
     <p class="noscript">This call needs JavaScript. Turn it on, then open the page again.</p>
   </noscript>
 
-  <script src="js/script.js"></script>
-  <script src="js/match.js"></script>
-  <script src="js/speech.js"></script>
-  <script src="js/clips.js"></script>
-  <script src="js/game.js"></script>
+  <script src="js/script.js?v=andare2"></script>
+  <script src="js/match.js?v=andare2"></script>
+  <script src="js/speech.js?v=andare2"></script>
+  <script src="js/clips.js?v=andare2"></script>
+  <script src="js/game.js?v=andare2"></script>
 </body>
 </html>

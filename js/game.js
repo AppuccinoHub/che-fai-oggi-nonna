@@ -4,21 +4,66 @@
 
   var KEY = "che-fai-oggi-nonna-v1";
   var TURNS = NONNA_SCRIPT.turns;
-  var GOOD = [
-    { t: "mangi", en: "you eat" },
-    { t: "vai", en: "you go" },
-    { t: "guardi", en: "you watch" },
-    { t: "bevi", en: "you drink" },
-    { t: "giochi", en: "you play" }
-  ];
-  var BAD = [
-    { t: "mangio", en: "I eat" },
-    { t: "vado", en: "I go" },
-    { t: "guardo", en: "I watch" },
-    { t: "bevo", en: "I drink" },
-    { t: "gioco", en: "I play" },
-    { t: "vadi", en: "not a word" }
-  ];
+  var CATCHES = {
+    andare: {
+      id: "andare",
+      title: "Andare Catch",
+      legend: "Catch vado and vai, plus when and where. Let vadi fall.",
+      basket: "vado<br>vai",
+      wide: true,
+      goodRate: 0.62,
+      bestKey: "andareBest",
+      playedKey: "andarePlayed",
+      badTitle: "Vadi landed in the basket.",
+      badLine: "Let that one fall.",
+      good: [
+        { t: "vado", en: "I go" },
+        { t: "vai", en: "you go" },
+        { t: "oggi", en: "today" },
+        { t: "domani", en: "tomorrow" },
+        { t: "adesso", en: "now" },
+        { t: "al mare", en: "to the sea" },
+        { t: "in palestra", en: "to the gym" },
+        { t: "con Nonna", en: "with Grandma" },
+        { t: "con amici", en: "with friends" },
+        { t: "con Zia", en: "with Aunt" }
+      ],
+      bad: [
+        { t: "vadi", en: "not a word" },
+        { t: "vadi", en: "not a word" },
+        { t: "vadi", en: "not a word" },
+        { t: "mangio", en: "I eat" },
+        { t: "guardo", en: "I watch" }
+      ]
+    },
+    time: {
+      id: "time",
+      title: "Time Catch",
+      legend: "Catch oggi, domani, and adesso. Let everything else fall.",
+      basket: "tempo",
+      wide: false,
+      goodRate: 0.5,
+      bestKey: "timeBest",
+      playedKey: "timePlayed",
+      badTitle: "That was not a time word.",
+      badLine: "Not oggi, domani, or adesso.",
+      good: [
+        { t: "oggi", en: "today" },
+        { t: "domani", en: "tomorrow" },
+        { t: "adesso", en: "now" }
+      ],
+      bad: [
+        { t: "vado", en: "I go" },
+        { t: "vai", en: "you go" },
+        { t: "vadi", en: "not a word" },
+        { t: "al mare", en: "to the sea" },
+        { t: "in palestra", en: "to the gym" },
+        { t: "con Nonna", en: "with Grandma" },
+        { t: "con amici", en: "with friends" },
+        { t: "con Zia", en: "with Aunt" }
+      ]
+    }
+  };
   var EYEBROW = {
     hello: "She called",
     time: "Today or tomorrow",
@@ -89,7 +134,11 @@
       gifts: {},
       catchUnlocked: false,
       catchBest: 0,
-      catchPlayed: 0
+      catchPlayed: 0,
+      andareBest: 0,
+      andarePlayed: 0,
+      timeBest: 0,
+      timePlayed: 0
     };
     try {
       var raw = localStorage.getItem(KEY);
@@ -394,7 +443,7 @@
     $("calls-line").textContent = calls
       ? calls + (calls === 1 ? " finished call" : " finished calls") + " · best " + (profile.bestStars || 0)
       : "";
-    $("catch-home-btn").hidden = !profile.catchUnlocked;
+    $("catch-home").hidden = !profile.catchUnlocked;
     renderMastered(profile);
     syncModeButtons();
     paintJar("home-scene");
@@ -1187,7 +1236,7 @@
     var rect = $("catch-field").getBoundingClientRect();
     if (!rect.width) return;
     var x = clientX - rect.left;
-    var half = 56;
+    var half = state.catch.basketHalf || 56;
     x = Math.max(half + 4, Math.min(rect.width - half - 4, x));
     state.catch.basketX = x;
     $("basket").style.left = x + "px";
@@ -1210,8 +1259,9 @@
 
   function spawnWord() {
     var field = $("catch-field");
-    var good = Math.random() < 0.62;
-    var pool = good ? GOOD : BAD;
+    var pack = state.catch.pack;
+    var good = Math.random() < pack.goodRate;
+    var pool = good ? pack.good : pack.bad;
     var item = pool[Math.floor(Math.random() * pool.length)];
     var el = document.createElement("div");
     el.className = "fall-word";
@@ -1257,7 +1307,8 @@
       word.y += word.speed * dt;
       word.el.style.top = word.y + "px";
       var center = word.x + word.w / 2;
-      var caught = word.y + word.h >= basketTop && word.y <= basketTop + 28 && Math.abs(center - bx) < 56 + word.w * 0.2;
+      var half = game.basketHalf || 56;
+      var caught = word.y + word.h >= basketTop && word.y <= basketTop + 28 && Math.abs(center - bx) < half + word.w * 0.2;
       if (caught) {
         word.el.remove();
         game.words.splice(i, 1);
@@ -1269,7 +1320,7 @@
         } else {
           game.lives -= 1;
           soft();
-          announce(word.text + " is not tu.");
+          announce(word.text + ". " + game.pack.badLine);
         }
         updateCatchHud();
         if (game.lives <= 0) {
@@ -1300,19 +1351,21 @@
     stopCatchLoop();
     clearFalling();
     var game = state.catch;
+    var pack = game.pack;
     var profile = load();
-    var best = Math.max(profile.catchBest || 0, game.score);
-    var fresh = game.score > (profile.catchBest || 0) && game.score > 0;
-    profile.catchBest = best;
-    profile.catchPlayed = (profile.catchPlayed || 0) + 1;
+    var prev = profile[pack.bestKey] || 0;
+    var best = Math.max(prev, game.score);
+    var fresh = game.score > prev && game.score > 0;
+    profile[pack.bestKey] = best;
+    profile[pack.playedKey] = (profile[pack.playedKey] || 0) + 1;
     save(profile);
-    $("catch-over-title").textContent = reason === "time" ? "Time’s up." : "An io form landed in the basket.";
+    $("catch-over-title").textContent = reason === "time" ? "Time’s up." : pack.badTitle;
     $("catch-over-body").textContent =
       "Score " +
       game.score +
       " · " +
       game.caught +
-      " tu forms · best " +
+      " caught · best " +
       best +
       (fresh ? " · new best" : "");
     $("catch-over").hidden = false;
@@ -1325,7 +1378,15 @@
     $("catch-over").hidden = true;
     var field = $("catch-field");
     var rect = field.getBoundingClientRect();
+    var pack = CATCHES[state.catchMode] || CATCHES.andare;
+    var basket = $("basket");
+    basket.classList.toggle("is-wide", !!pack.wide);
+    basket.innerHTML = pack.basket;
+    $("catch-title").textContent = pack.title;
+    $("catch-legend").textContent = pack.legend;
     state.catch = {
+      mode: pack.id,
+      pack: pack,
       score: 0,
       lives: 3,
       left: 35,
@@ -1336,6 +1397,7 @@
       elapsed: 0,
       last: performance.now(),
       caught: 0,
+      basketHalf: pack.wide ? 66 : 56,
       basketX: rect.width / 2 || 160,
       raf: 0,
       tick: 0
@@ -1351,8 +1413,9 @@
     state.catch.raf = requestAnimationFrame(catchFrame);
   }
 
-  function openCatch(from) {
+  function openCatch(from, mode) {
     state.returnTo = from || "choice";
+    state.catchMode = mode || "andare";
     showScreen("catch");
     requestAnimationFrame(function () {
       startCatch();
@@ -1445,8 +1508,11 @@
       state.inputMode = "tap";
       syncModeButtons();
     });
-    $("catch-home-btn").addEventListener("click", function () {
-      openCatch("home");
+    $("andare-home-btn").addEventListener("click", function () {
+      openCatch("home", "andare");
+    });
+    $("time-home-btn").addEventListener("click", function () {
+      openCatch("home", "time");
     });
     $("decline-btn").addEventListener("click", hangUp);
     $("answer-btn").addEventListener("click", beginCall);
@@ -1482,8 +1548,11 @@
       showScreen("shop");
     });
     $("pop-btn").addEventListener("click", openPop);
-    $("play-btn").addEventListener("click", function () {
-      openCatch("choice");
+    $("andare-play-btn").addEventListener("click", function () {
+      openCatch("choice", "andare");
+    });
+    $("time-play-btn").addEventListener("click", function () {
+      openCatch("choice", "time");
     });
     $("shop-back").addEventListener("click", goBackFromMini);
     $("pop-back").addEventListener("click", goBackFromMini);

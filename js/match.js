@@ -11,7 +11,9 @@
     ["guardo", "guardi"],
     ["bevo", "bevi"],
     ["gioco", "giochi"],
-    ["oggi", "domani", "adesso"]
+    ["oggi", "domani", "adesso"],
+    ["nonna", "amici", "zia"],
+    ["mare", "palestra"]
   ];
 
   function normalize(value) {
